@@ -1,0 +1,36 @@
+{
+  "name": "your-fivem-resource",
+  "version": "1.0.0",
+  "description": "FiveM TypeScript Resource with Source Map Support",
+  "main": "build/server/index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "clean": "rimraf build",
+    "dev": "tsc --watch",
+    "start": "tsc && echo 'Build completed. Start your FiveM server.'",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix"
+  },
+  "keywords": [
+    "fivem",
+    "typescript",
+    "game-development"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "fivem-typescript-sourcemap": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "rimraf": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+} 

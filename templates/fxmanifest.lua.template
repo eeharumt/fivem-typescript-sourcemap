@@ -1,0 +1,38 @@
+fx_version 'cerulean'
+game 'gta5'
+
+-- Replace with your resource name
+name 'your-resource-name'
+description 'TypeScript Resource with Source Map Support'
+version '1.0.0'
+author 'Your Name'
+
+-- TypeScript build outputs
+server_scripts {
+    'build/server/**/*.js'
+}
+
+client_scripts {
+    'build/client/**/*.js'
+}
+
+-- ★重要★ ソースマップファイルを明示的に読み込み
+-- TypeScript SourceMap Supportが正常に動作するために必須
+files {
+    'build/server/**/*.js.map',
+    'build/client/**/*.js.map'
+}
+
+-- Node.js modules (if needed)
+server_exports {
+    'LoadResourceFile'
+}
+
+-- Dependencies (if needed)
+dependencies {
+    -- '/server:4892',  -- Minimum FiveM server version
+    -- '/gameBuild:2189' -- Minimum game build
+}
+
+-- Optional: Lua script support
+-- lua54 'yes' 
