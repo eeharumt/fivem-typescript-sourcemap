@@ -1,5 +1,5 @@
 {
-    "name": "fivem-typescript-sourcemap",
+    "name": "@eeharumt/fivem-typescript-sourcemap",
     "version": "1.0.0",
     "description": "TypeScript source map support library optimized for FiveM development",
     "main": "dist/index.js",
@@ -22,6 +22,17 @@
     ],
     "author": "eeharumt",
     "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/eeharumt/fivem-typescript-sourcemap.git"
+    },
+    "homepage": "https://github.com/eeharumt/fivem-typescript-sourcemap#readme",
+    "bugs": {
+      "url": "https://github.com/eeharumt/fivem-typescript-sourcemap/issues"
+    },
+    "publishConfig": {
+      "access": "public"
+    },
     "devDependencies": {
       "@types/node": "^20.0.0",
       "typescript": "^5.0.0",
