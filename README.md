@@ -1,47 +1,51 @@
-# fivem-typescript-sourcemap-support
+# FiveM TypeScript Source Map Support
 
-高品質なTypeScriptデバッギング体験を提供するFiveM専用ソースマップサポートライブラリです。
+A source map support library for FiveM resources, enabling accurate TypeScript debugging with proper stack traces.
 
-## 🚀 簡単インストール
+## Installation
 
-### 1. パッケージのインストール
+### Package Installation
 
 ```bash
-# pnpmを使用（推奨）
-pnpm add typescript-sourcemap-support
+# Using pnpm (recommended)
+pnpm add @eeharumt/fivem-typescript-sourcemap
 
-# または npm
-npm install typescript-sourcemap-support
+# Using npm
+npm install @eeharumt/fivem-typescript-sourcemap
 ```
 
-### 2. 使用方法
+### Basic Usage
+
+Add the following to the top of your main server/client entry file:
 
 ```typescript
-// src/server/index.ts の最上部に追加
-import { initializeSourceMapSupport } from 'typescript-sourcemap-support';
+// src/server/index.ts
+import { initializeSourceMapSupport } from '@eeharumt/fivem-typescript-sourcemap';
 
-// ソースマップサポートを初期化
+// Initialize source map support
 initializeSourceMapSupport({ debug: true });
 
-// 以降は通常のコード...
-console.log('サーバー開始');
+// Your code continues here...
+console.log('Server starting');
 ```
 
-### 3. FiveM設定
+### FiveM Configuration
 
-`fxmanifest.lua`に以下を追加：
+Add the following to your `fxmanifest.lua`:
 
 ```lua
--- ★重要★ ソースマップファイルを読み込み
+-- Include source map files for debugging
 files {
     'build/server/**/*.js.map',
     'build/client/**/*.js.map'
 }
 ```
 
-## 🔧 設定例
+## Configuration
 
-### TypeScript設定 (`tsconfig.json`)
+### TypeScript Configuration
+
+Ensure your `tsconfig.json` includes proper source map settings:
 
 ```json
 {
@@ -54,7 +58,7 @@ files {
 }
 ```
 
-### FiveM設定 (`fxmanifest.lua`)
+### Complete FiveM Manifest Example
 
 ```lua
 fx_version 'cerulean'
@@ -63,118 +67,125 @@ game 'gta5'
 server_scripts { 'build/server/**/*.js' }
 client_scripts { 'build/client/**/*.js' }
 
--- ★重要★ ソースマップファイルを明示的に読み込み
+-- Essential: Include source map files
 files {
     'build/server/**/*.js.map',
     'build/client/**/*.js.map'
 }
 ```
 
-## 📊 効果の比較
+## Stack Trace Comparison
 
-### 従来のスタックトレース
+### Before (Compiled JavaScript)
 ```
-Error: カスタムエラー
+Error: Custom error message
     at throwError (@your-resource/build/server/index.js:45:11)
     at Object.callback (@your-resource/build/server/index.js:78:17)
 ```
 
-### ソースマップサポート適用後
+### After (Original TypeScript)
 ```
-Error: カスタムエラー
-    at throwError (src/server/index.ts:120:11)    ← TypeScriptファイル！
-    at <anonymous> (src/server/index.ts:156:17)   ← 正確な行番号！
+Error: Custom error message
+    at throwError (src/server/index.ts:120:11)    ← TypeScript file!
+    at <anonymous> (src/server/index.ts:156:17)   ← Accurate line numbers!
 ```
 
-## 🛠️ API リファレンス
+## API Reference
 
-### `initializeSourceMapSupport(options?)`
+### initializeSourceMapSupport(options?)
 
-ソースマップサポートを初期化します。
+Initializes source map support for the current resource.
 
 ```typescript
-import { initializeSourceMapSupport } from 'fivem-typescript-sourcemap';
+import { initializeSourceMapSupport } from '@eeharumt/fivem-typescript-sourcemap';
 
-// 基本的な使用方法
+// Basic initialization
 initializeSourceMapSupport();
 
-// デバッグモード有効
+// With debug mode enabled
 initializeSourceMapSupport({ debug: true });
 ```
 
-### `enableDebugMode()` / `disableDebugMode()`
+**Options:**
+- `debug` (boolean): Enable detailed logging for troubleshooting
 
-デバッグモードの切り替え：
+### enableDebugMode() / disableDebugMode()
 
-```typescript
-import { enableDebugMode, disableDebugMode } from 'fivem-typescript-sourcemap';
-
-enableDebugMode();  // 詳細ログを有効化
-disableDebugMode(); // 詳細ログを無効化
-```
-
-### `clearSourceMapCache()`
-
-ソースマップキャッシュをクリア：
+Toggle debug mode at runtime:
 
 ```typescript
-import { clearSourceMapCache } from 'fivem-typescript-sourcemap';
+import { enableDebugMode, disableDebugMode } from '@eeharumt/fivem-typescript-sourcemap';
 
-clearSourceMapCache(); // 開発時のホットリロードに有効
+enableDebugMode();  // Enable detailed logging
+disableDebugMode(); // Disable detailed logging
 ```
 
-## 🧪 テスト用コード
+### clearSourceMapCache()
 
-動作確認用のテストコード：
+Clear the internal source map cache:
+
+```typescript
+import { clearSourceMapCache } from '@eeharumt/fivem-typescript-sourcemap';
+
+clearSourceMapCache(); // Useful during development hot-reloading
+```
+
+## Testing
+
+You can test the source map functionality with this command:
 
 ```typescript
 RegisterCommand('test-sourcemap', () => {
   try {
     const testFunction = () => {
-      throw new Error('ソースマップテストエラー');
+      throw new Error('Source map test error');
     };
     testFunction();
   } catch (error) {
-    console.error('スタックトレース（TypeScript行番号が表示されます）:');
+    console.error('Stack trace (should show TypeScript line numbers):');
     console.error(error.stack);
   }
 }, false);
 ```
 
-## 🚨 トラブルシューティング
+## Troubleshooting
 
-### ソースマップが機能しない場合
+### Source Maps Not Working
 
-1. **fxmanifest.lua確認**:
+1. **Check fxmanifest.lua**:
    ```lua
    files {
-       'build/**/*.js.map'  -- これが含まれているか確認
+       'build/**/*.js.map'  -- Ensure this is included
    }
    ```
 
-2. **TypeScriptビルド確認**:
+2. **Verify TypeScript Build**:
    ```bash
-   # .js.mapファイルが生成されているか確認
+   # Check if .js.map files are generated
    ls -la build/server/*.js.map
    ```
 
-3. **デバッグモード有効化**:
+3. **Enable Debug Mode**:
    ```typescript
    initializeSourceMapSupport({ debug: true });
    ```
 
-### よくある問題
+### Common Issues
 
-| 問題 | 解決方法 |
-|------|----------|
-| 行番号が正しくない | `sourceRoot`設定を確認 |
-| ファイルパスが間違っている | `fxmanifest.lua`の`files`設定を確認 |
-| パフォーマンス問題 | 本番環境では`debug: false`に設定 |
+| Issue | Solution |
+|-------|----------|
+| Incorrect line numbers | Check `sourceRoot` configuration in tsconfig.json |
+| Wrong file paths | Verify `files` configuration in fxmanifest.lua |
+| Performance issues | Use `debug: false` in production environments |
 
+## Requirements
 
+- FiveM Server/Client
+- TypeScript project with source maps enabled
+- Node.js modules support in your resource
 
-## 📄 ライセンス
+## License
 
-MIT License - 詳細は [LICENSE](LICENSE) ファイルを参照してください。
+MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
